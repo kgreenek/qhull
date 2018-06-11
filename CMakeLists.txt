@@ -356,13 +356,23 @@ add_library(${qhull_STATIC} STATIC ${libqhull_SOURCES})
 set_target_properties(${qhull_STATIC} PROPERTIES
     VERSION ${qhull_VERSION})
 
+add_library(${qhull_SHARED} SHARED ${libqhull_SOURCES})
+set_target_properties(${qhull_SHARED} PROPERTIES
+    VERSION ${qhull_VERSION})
+
 add_library(${qhull_STATICR} STATIC ${libqhullr_SOURCES})
 set_target_properties(${qhull_STATICR} PROPERTIES
     VERSION ${qhull_VERSION})
 
+add_library(${qhull_SHAREDR} SHARED ${libqhullr_SOURCES})
+set_target_properties(${qhull_SHAREDR} PROPERTIES
+    VERSION ${qhull_VERSION})
+
 if(UNIX)
     target_link_libraries(${qhull_STATIC} m)
+    target_link_libraries(${qhull_SHARED} m)
     target_link_libraries(${qhull_STATICR} m)
+    target_link_libraries(${qhull_SHAREDR} m)
 endif(UNIX)
 
 # ---------------------------------------
@@ -410,7 +420,18 @@ target_link_libraries(qhalf ${qhull_STATIC})
 # Define install
 # ---------------------------------------
 
-install(TARGETS ${qhull_TARGETS_INSTALL}
+install(TARGETS
+            qhull
+            rbox
+            qconvex
+            qdelaunay
+            qvoronoi
+            qhalf
+            ${qhull_CPP}
+            ${qhull_SHARED}
+            ${qhull_SHAREDR}
+            ${qhull_STATIC}
+            ${qhull_STATICR}
         RUNTIME DESTINATION ${BIN_INSTALL_DIR}
         LIBRARY DESTINATION ${LIB_INSTALL_DIR}
         ARCHIVE DESTINATION ${LIB_INSTALL_DIR})
